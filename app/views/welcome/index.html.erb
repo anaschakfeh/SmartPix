@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TwtrSmartPix</title>
+    <link href="/assets/smart_wizard.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="/assets/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="/assets/jquery.smartWizard-2.0.min.js"></script>
+
+    <script type="text/javascript">
+
+      function copyToClipboard(text) {              
+        window.prompt ("Copy to clipboard: Ctrl+C, Enter", text);
+      }
+      
+     
+
+      $(document).ready(function() {
+        // Smart Wizard     	
+        $('#wizard').smartWizard({transitionEffect: 'slideleft', onLeaveStep: leaveAStepCallback, onFinish: onFinishCallback, enableFinishButton: true});
+
+
+          $('#copyClipboard').click(function() {
+                  
+                  copyToClipboard(document.getElementById('sPixURL').value);
+                  return!1;
+                });
+
+        function leaveAStepCallback(obj) {
+          var step_num = obj.attr('rel');
+          return validateSteps(step_num);
+        }
+
+        function onFinishCallback() {
+          if (validateAllSteps()) {
+            $('form').submit();
+          }
+        }
+      });
+
+      function validateAllSteps() {
+        var isStepValid = true;
+
+        if (validateStep1() == false) {
+          isStepValid = false;
+          $('#wizard').smartWizard('setError', {stepnum: 1, iserror: true});
+        } else {
+          $('#wizard').smartWizard('setError', {stepnum: 1, iserror: false});
+        }
+
+        if (!isStepValid) {
+          $('#wizard').smartWizard('showMessage', 'Please correct the errors in the steps and continue');
+        }
+
+        return isStepValid;
+      }
+
+
+      function validateSteps(step) {
+        var isStepValid = true;
+        // validate step 1
+        if (step == 1) {
+          if (validateStep1() == false) {
+            isStepValid = false;
+            $('#wizard').smartWizard('showMessage', 'Please correct the errors in step' + step + ' and click next.');
+            $('#wizard').smartWizard('setError', {stepnum: step, iserror: true});
+          } else {
+            $('#wizard').smartWizard('setError', {stepnum: step, iserror: false});
+          }
+        }
+
+
+        return isStepValid;
+      }
+
+      function validateStep1() {
+        var isValid = true;
+        // Validate Username
+        var un = $('#username').val();
+        if (!un && un.length <= 0) {
+          isValid = false;
+          $('#msg_username').html('Please fill username').show();
+        } else {
+          $('#msg_username').html('').hide();
+        }
+
+
+        return isValid;
+      }
+
+
+
+    </script>
+
+    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag :defaults %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <!--
+    <h1>Listing Tweets</h1>
+    <ul id="tweets_list">
+<%# @retweets.each do |c| %>
+<%#*<li><%=  c.from_user %>%>
+<%#= "(#{c.text})" -%></li>
+<%# end %>
+    </ul>
+    -->
+
+    <table align="center" border="0" cellpadding="0" cellspacing="0">
+      <tr><td>
+
+          <form action="#" method="POST">
+            <input type='hidden' name="issubmit" value="1">
+            <!-- Tabs -->
+            <div id="wizard" class="swMain">
+              <ul>
+                <li><a href="#step-1">
+                    <span class="stepNumber">1</span>
+                    <span class="stepDesc">
+                      Start<br />
+                      <small>Add your latest tweet</small>
+                    </span>
+                  </a></li>
+                <li><a href="#step-2">
+                    <span class="stepNumber">2</span>
+                    <span class="stepDesc">
+                      Get URL<br />
+                      <small>Get your image URL</small>
+                    </span>
+                  </a></li>
+                <li><a href="#step-3">
+                    <span class="stepNumber">3</span>
+                    <span class="stepDesc">
+                      Learn more<br />
+                      <small>additional information</small>
+                    </span>
+                  </a></li>
+              </ul>
+              <div id="step-1">	
+                <h2 class="StepTitle">Step 1: Start</h2>
+                <table cellspacing="3" cellpadding="3" align="center">
+                  <tr>
+                    <td align="center" colspan="3">&nbsp;</td>
+                  </tr>        
+                  <tr>
+                    <td align="right">Twitter Username :</td>
+                    <td align="left">
+                      <input type="text" id="username" name="username" value="" class="txtBox">
+                    </td>
+                    <td align="left"><span id="msg_username"></span>&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="right"></td>
+                    <td align="left">
+                      <a href="#" id="getURL" class="buttonNext">Get URL</a>
+                    </td>
+                    <td align="left"></td>
+                  </tr>
+
+                </table>          			
+              </div>
+              <div id="step-2">
+                <h2 class="StepTitle">Step 2: Get URL</h2>	
+                <table cellspacing="3" cellpadding="3" align="center">
+                  <tr>
+                    <td align="center" colspan="3">&nbsp;</td>
+                  </tr>        
+                  <tr>
+                    <td align="right">SmartPix URL :</td>
+                    <td align="left">
+                      <input type="text" id="sPixURL" name="sPixURL" value="" class="txtBox">
+                    </td>
+                    <td align="left"><span id="msg_firstname"></span>&nbsp;</td>
+                  </tr>   
+                  <tr>
+                    <td align="right"></td>
+                    <td align="left">
+                      <a href="#" id="copyClipboard" class="buttonNext">Copy to Clipboard</a>
+                    </td>
+                    <td align="left"></td>
+                  </tr>
+                  <tr>
+                    <td align="center" colspan="3">
+                      <span id="txtLoading">
+                        <img src='/assets/image_545989.gif' />
+                      </span>
+                      <span id="txtTweetResult">
+                      </span>
+                    </td>
+                  </tr> 
+                </table>        
+              </div>                      
+              <div id="step-3">
+                <h2 class="StepTitle">Step 3: Learn More</h2>	
+                <table cellspacing="3" cellpadding="3" align="center">
+                  <tr>
+                    <td align="center" colspan="3">
+                      <p>Wondering how this is possible? Wondering what technology lies 
+                        behind the Twitter SmartPix application?
+                      </p>
+                      <p>Then please find additional information on smartpix.com.</p>
+                      <a href="http://www.smartpix.com" target="_blank" class="buttonFinish">Go to smartpix.com</a>
+                    </td>
+                  </tr>                                          			
+                </table>               				          
+              </div>
+
+              <!-- End SmartWizard Content -->  		
+          </form> 
+
+        </td></tr>
+    </table> 
+
+
+  </body>
+</html>
+
+

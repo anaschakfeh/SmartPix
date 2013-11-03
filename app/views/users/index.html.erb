@@ -1,0 +1,15 @@
+<h1>Listing users</h1>
+ 
+<table>
+  <tr>
+    <th>Twitter Name</th>
+    <th>Name</th>
+  </tr>
+ 
+  <% @users.each do |user| %>
+    <tr>
+      <td><%= user.twitterName %></td>
+      <td><%= user.name %></td>
+    </tr>
+  <% end %>
+</table>
