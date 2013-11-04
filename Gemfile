@@ -49,3 +49,7 @@ end
 gem 'rails_12factor', group: :production
 
 gem "twitter", "~> 4.8.1"
+
+group :production do
+      gem 'rails_12factor'
+end
