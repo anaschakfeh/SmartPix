@@ -22,7 +22,8 @@ module TwtrSmartPix
      config.assets.precompile += [
       'smart_wizard.css',
       'jquery-1.4.2.min.js',
-      'jquery.smartWizard-2.0.min.js'
+      'jquery.smartWizard-2.0.min.js',
+      'image_545989.gif'
       
     ]
     
