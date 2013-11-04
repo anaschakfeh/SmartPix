@@ -34,6 +34,10 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+group :production do
+      gem 'rails_12factor'
+end
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
@@ -46,10 +50,8 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-gem 'rails_12factor', group: :production
+#gem 'rails_12factor', group: :production
 
 gem "twitter", "~> 4.8.1"
 
-group :production do
-      gem 'rails_12factor'
-end
+
