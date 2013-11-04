@@ -3,31 +3,50 @@
 <html>
   <head>
     <title>TwtrSmartPix</title>
-                               
-                              
-                               
+
+    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag :defaults %>
+    <%= csrf_meta_tags %>                          
+
+    <%#*<style type="text/css">%>
+      <%#*#loadingMessage {%>
+        <%#*position: absolute;%>
+        <%#*z-Index: 100;%>
+      <%#*}%>
+    <%#*</style>%> 
+
+
     <link href="/assets/smart_wizard.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src=" /assets/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="/assets/jquery.smartWizard-2.0.min.js"></script>
 
+
+
     <script type="text/javascript">
-
-      function copyToClipboard(text) {              
-        window.prompt ("Copy to clipboard: Ctrl+C, Enter", text);
-      }
-      
-     
-
       $(document).ready(function() {
+
+        $("#loadingMessage").hide();
+
+        ZeroClipboard.setDefaults({
+          moviePath: '/assets/ZeroClipboard.swf',
+          trustedOrigins: [window.location.protocol + "//" + window.location.host]
+        });
+        var clip = new ZeroClipboard($('#d_clip_button'));
+        clip.on('mousedown', function(client) {
+          clip.setText(document.getElementById('sPixURL').value);
+
+          <%#*var posX = client.offsetX;%>
+          <%#*var posY = client.offsetY;%>
+
+          <%#*$("#loadingMessage").posx = posX;%>
+          <%#*$("#loadingMessage").posy = posY;%>
+          <%#*$("#loadingMessage").show();%>
+        });
+
         // Smart Wizard     	
         $('#wizard').smartWizard({transitionEffect: 'slideleft', onLeaveStep: leaveAStepCallback, onFinish: onFinishCallback, enableFinishButton: true});
 
-
-          $('#copyClipboard').click(function() {
-                  
-                  copyToClipboard(document.getElementById('sPixURL').value);
-                  return!1;
-                });
 
         function leaveAStepCallback(obj) {
           var step_num = obj.attr('rel');
@@ -91,25 +110,13 @@
         return isValid;
       }
 
-
-
     </script>
 
-    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-    <%= javascript_include_tag :defaults %>
-    <%= csrf_meta_tags %>
+
   </head>
   <body>
-    <!--
-    <h1>Listing Tweets</h1>
-    <ul id="tweets_list">
-<%# @retweets.each do |c| %>
-<%#*<li><%=  c.from_user %>%>
-<%#= "(#{c.text})" -%></li>
-<%# end %>
-    </ul>
-    -->
+
+    <%#*<div id="loadingMessage">This page be uploading!</div>%>
 
     <table align="center" border="0" cellpadding="0" cellspacing="0">
       <tr><td>
@@ -180,7 +187,10 @@
                   <tr>
                     <td align="right"></td>
                     <td align="left">
-                      <a href="#" id="copyClipboard" class="buttonNext">Copy to Clipboard</a>
+                      <a id="d_clip_button" class="buttonNext">Copy To Clipboard</a>
+                      <script type="text/javascript">
+
+                      </script>
                     </td>
                     <td align="left"></td>
                   </tr>
