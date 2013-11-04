@@ -19,13 +19,13 @@ module TwtrSmartPix
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
-     config.assets.precompile += [
-      'smart_wizard.css',
-      'jquery-1.4.2.min.js',
-      'jquery.smartWizard-2.0.min.js',
-      'image_545989.gif'
-      
-    ]
-    
+#     config.assets.precompile += [
+#      'smart_wizard.css',
+#      'jquery-1.4.2.min.js',
+#      'jquery.smartWizard-2.0.min.js',
+#      'image_545989.gif'
+#      
+#    ]
+#    
   end
 end
