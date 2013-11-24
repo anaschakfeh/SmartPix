@@ -8,6 +8,10 @@ gem 'rails', '4.0.0'
 # Use postgresql as the database for Active Record
 gem 'pg'
 
+gem 'execjs'
+
+gem 'therubyracer', :platforms => :ruby
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
@@ -38,6 +42,8 @@ group :production do
       gem 'rails_12factor'
 end
 gem 'rails_on_heroku'
+
+gem 'imgkit'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
